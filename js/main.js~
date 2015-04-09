@@ -94,14 +94,18 @@ window.onload = function() {
     var spaceKey;
     var matchesRemaining = 16;
     var avatarText;
-    var textStyle = { font: "20px Arial", fill: "#000000", align: "center" };
+    var textStyle = { font: "30px Arial", fill: "#000000", align: "center" };
     var time = 0;
+    var gameNotEnd = 1;
+    var gameRunning = 0;
         
     function create()
     {
     	    game.physics.startSystem(Phaser.Physics.ARCADE);
     	    game.world.setBounds(0, 0, 1024, 576);
     	    game.add.sprite(0, 0, 'back');
+    	    
+    	    time = game.time.now;
     	    
     	    Phaser.Utils.shuffle(cardList);
     	    
@@ -234,7 +238,7 @@ window.onload = function() {
     	    avatar.animations.add('left', [0, 1, 2, 3], 10, true);
     	    avatar.animations.add('right', [5, 6, 7, 8], 10, true);
     	    
-    	    avatarText = game.add.text(60, 55, 'Time Remaining: ' + time + ' Pairs Remaining: ' + matchesRemaining, textStyle);
+    	    avatarText = game.add.text(205, 45, 'Time Remaining: ' + Math.floor(((169999 - (game.time.now - time)) / 1000) % 600) + '      Pairs Remaining: ' + matchesRemaining, textStyle);
     	    
     	    cursors = game.input.keyboard.createCursorKeys();
     	    
@@ -259,9 +263,23 @@ window.onload = function() {
     
     function update()
     {
+    	    avatarText.setText('Time Remaining: ' + Math.floor(((169999 - (game.time.now - time)) / 1000) % 600) + '      Pairs Remaining: ' + matchesRemaining);
+    	    
+    	    if (matchesRemaining < 1)
+    	    {
+    	    	    gameRunning = 0;
+    	    	    checkWin();
+    	    }
+    	    
+    	    if ((Math.floor(((169999 - (game.time.now - time)) / 1000) % 600)) < 0)
+    	    {
+    	    	    gameNotEnd = 0;
+    	    	    game.time.events.add(Phaser.Timer.SECOND * 1.6, checkWin, null);
+    	    }
+    	    
     	    game.physics.arcade.collide(avatar, wallGroup, null, null, this);
     	    
-    	    if (spaceKey.isDown)
+    	    if (spaceKey.isDown && gameNotEnd)
     	    {
     	    	    game.physics.arcade.overlap(avatar, card0, card0Check, null, this);
     	    	    game.physics.arcade.overlap(avatar, card1, card1Check, null, this);
@@ -386,6 +404,20 @@ window.onload = function() {
     {
     	    firstCard.destroy();
     	    secondCard.destroy();
+    }
+    
+    function checkWin()
+    {
+    	    gameRunning = 0;
+    	    if (matchesRemaining < 1)
+    	    {
+    	    	    game.add.sprite(0, 0, 'back');
+    	    	    
+    	    }
+    	    else
+    	    {
+    	    	    //lose state
+    	    }
     }
     
     function card0Check(avatar, card0)

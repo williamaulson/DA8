@@ -1,45 +1,41 @@
 window.onload = function() {
-    // You might want to start with a template that uses GameStates:
-    //     https://github.com/photonstorm/phaser/tree/master/resources/Project%20Templates/Basic
-    
-    // You can copy-and-paste the code from any of the examples at http://examples.phaser.io here.
-    // You will need to change the fourth parameter to "new Phaser.Game()" from
-    // 'phaser-example' to 'game', which is the id of the HTML element where we
-    // want the game to go.
-    // The assets (and code) can be found at: https://github.com/photonstorm/phaser/tree/master/examples/assets
-    // You will need to change the paths you pass to "game.load.image()" or any other
-    // loading functions to reflect where you are putting the assets.
-    // All loading functions will typically all be found inside "preload()".
+    // William Aulsoln CS 325
+    // Digital Assignment #8
+    // Speed Memory
     
     "use strict";
     
     var game = new Phaser.Game(1024, 576, Phaser.AUTO, 'game', { preload: preload, create: create, update: update } );
     
-    function preload()
+    function preload() //preload assets
     {
-    	    game.load.image('back', 'assets/back.png')
+    	    game.load.image('back', 'assets/back.png');
     	    game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
-    	    game.load.image('floor', 'assets/floor.png')
-    	    game.load.image('wall', 'assets/wall.png')
-    	    game.load.image('card', 'assets/card.png')
-    	    game.load.image('ladybug', 'assets/ladybug.png')
-    	    game.load.image('house', 'assets/house.png')
-    	    game.load.image('dog', 'assets/dog.png')
-    	    game.load.image('ball', 'assets/ball.png')
-    	    game.load.image('star', 'assets/star.png')
-    	    game.load.image('box', 'assets/box.png')
-    	    game.load.image('hamburger', 'assets/hamburger.png')
-    	    game.load.image('hotdog', 'assets/hotdog.png')
-    	    game.load.image('frog', 'assets/frog.png')
-    	    game.load.image('iron', 'assets/iron.png')
-    	    game.load.image('bubbles', 'assets/bubbles.png')
-    	    game.load.image('beer', 'assets/beer.png')
-    	    game.load.image('tree', 'assets/tree.png')
-    	    game.load.image('flower', 'assets/flower.png')
-    	    game.load.image('cloud', 'assets/cloud.png')
-    	    game.load.image('bird', 'assets/bird.png')
+    	    game.load.image('floor', 'assets/floor.png');
+    	    game.load.image('wall', 'assets/wall.png');
+    	    game.load.image('card', 'assets/card.png');
+    	    game.load.image('ladybug', 'assets/ladybug.png');
+    	    game.load.image('house', 'assets/house.png');
+    	    game.load.image('dog', 'assets/dog.png');
+    	    game.load.image('ball', 'assets/ball.png');
+    	    game.load.image('star', 'assets/star.png');
+    	    game.load.image('box', 'assets/box.png');
+    	    game.load.image('hamburger', 'assets/hamburger.png');
+    	    game.load.image('hotdog', 'assets/hotdog.png');
+    	    game.load.image('frog', 'assets/frog.png');
+    	    game.load.image('iron', 'assets/iron.png');
+    	    game.load.image('bubbles', 'assets/bubbles.png');
+    	    game.load.image('beer', 'assets/beer.png');
+    	    game.load.image('tree', 'assets/tree.png');
+    	    game.load.image('flower', 'assets/flower.png');
+    	    game.load.image('cloud', 'assets/cloud.png');
+    	    game.load.image('bird', 'assets/bird.png');
+    	    game.load.image('bub', 'assets/bub.png');
+    	    game.load.audio('bell', 'assets/bell.mp3');
+    	    game.load.audio('pop', 'assets/pop.mp3');
+    	    game.load.audio('reed', 'assets/reed.mp3');
     }
-    
+    //variable lists
     var cardList = ["bird", "bird", "ball", "ball", "house", "house", "ladybug", "ladybug", "dog", "dog", "star", "star", "box", "box",
     	            "hamburger", "hamburger", "hotdog", "hotdog", "frog", "frog", "iron", "iron", "bubbles", "bubbles", "beer", "beer",
     			"tree", "tree", "flower", "flower", "cloud", "cloud"];
@@ -94,19 +90,39 @@ window.onload = function() {
     var spaceKey;
     var matchesRemaining = 16;
     var avatarText;
-    var textStyle = { font: "20px Arial", fill: "#000000", align: "center" };
+    var textStyle = { font: "30px Arial", fill: "#000000", align: "center" };
     var time = 0;
+    var gameNotEnd = 1;
+    var gameRunning = 0;
+    var firstTime = 1;
+    var introBack;
+    var introTitleText;
+    var introText;
+    var titleStyle = { font: "100px Arial", fill: "#A30000", align: "center" };
+    var emptyBubble;
+    var emptyGroup;
+    var timerOff = 1;
+    var avatarSpeed = 1.0;
+    var bell;
+    var pop;
+    var music;
         
-    function create()
+    function create() //create initial assets
     {
     	    game.physics.startSystem(Phaser.Physics.ARCADE);
     	    game.world.setBounds(0, 0, 1024, 576);
     	    game.add.sprite(0, 0, 'back');
     	    
+    	    time = game.time.now;
+    	    
     	    Phaser.Utils.shuffle(cardList);
     	    
     	    wallGroup = game.add.group();
     	    game.physics.arcade.enable(wallGroup);
+    	    
+    	    bell = game.add.audio('bell');
+    	    pop = game.add.audio('pop');
+    	    pop.allowMultiple = true;
     	    
     	    spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     	    
@@ -228,22 +244,34 @@ window.onload = function() {
     	    card31.body.immovable = true;
     	    
     	    cardGroup = game.add.group();
+    	    
+    	    emptyGroup = game.add.group();
+    	    game.physics.arcade.enable(emptyGroup);
     	        	    
     	    avatar = game.add.sprite(950, 480, 'dude');
     	    game.physics.arcade.enable(avatar);
     	    avatar.animations.add('left', [0, 1, 2, 3], 10, true);
     	    avatar.animations.add('right', [5, 6, 7, 8], 10, true);
     	    
-    	    avatarText = game.add.text(60, 55, 'Time Remaining: ' + time + ' Pairs Remaining: ' + matchesRemaining, textStyle);
+    	    avatarText = game.add.text(370, 45, 'Time Remaining: ' + Math.floor(((169999 - (game.time.now - time)) / 1000) % 600), textStyle);
     	    
     	    cursors = game.input.keyboard.createCursorKeys();
+    	    
+    	    introBack = game.add.sprite(0, 0, 'back');
+    	    introTitleText = game.add.text(500, 100, 'Speed Memory', titleStyle);
+    	    introTitleText.anchor.set(0.5);
+    	    introText = game.add.text(500, 250, 'Use the arrow keys to move.\nFlip the Cards with Spacebar.\nAvoid the bubbles.', textStyle);
+    	    introText.anchor.set(0.5);
+    	    
+    	    music = game.add.audio('reed');
+    	    music.play('', 0, 1, true);
     	    
     	    game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
     	    game.input.onDown.add(fullScreenStart, this);
     	    game.paused = true;
     }
     
-    function fullScreenStart()
+    function fullScreenStart() //fullscreen and start game logic method
     {
     	    if (game.scale.isFullScreen)
     	    {
@@ -252,18 +280,38 @@ window.onload = function() {
     	    }
     	    else
     	    {
+    	    	    if (firstTime)
+    	    	    {
+    	    	    	    killIntro();
+    	    	    	    gameRunning = 1;
+    	    	    	    firstTime = 0;
+    	    	    }
     	    	    game.scale.startFullScreen(true);
     	    	    game.paused = false;
     	    }
     }
     
-    function update()
+    function update() //main game logic loop
     {
-    	    avatarText.setText('Time Remaining: ' + time + ' Pairs Remaining: ' + matchesRemaining);
+    	    avatarText.setText('Time Remaining: ' + Math.floor(((169999 - (game.time.now - time)) / 1000) % 600));
+    	    
+    	    if (matchesRemaining < 1)
+    	    {
+    	    	    gameRunning = 0;
+    	    	    checkWin();
+    	    }
+    	    
+    	    if ((Math.floor(((169999 - (game.time.now - time)) / 1000) % 600)) < 0)
+    	    {
+    	    	    gameNotEnd = 0;
+    	    	    game.time.events.add(Phaser.Timer.SECOND * 1.6, checkWin, null);
+    	    }
     	    
     	    game.physics.arcade.collide(avatar, wallGroup, null, null, this);
+    	    game.physics.arcade.collide(emptyGroup, wallGroup, null, null, this);
+    	    game.physics.arcade.collide(avatar, emptyGroup, killBubble, null, this);
     	    
-    	    if (spaceKey.isDown)
+    	    if (spaceKey.isDown && gameNotEnd)
     	    {
     	    	    game.physics.arcade.overlap(avatar, card0, card0Check, null, this);
     	    	    game.physics.arcade.overlap(avatar, card1, card1Check, null, this);
@@ -304,35 +352,35 @@ window.onload = function() {
     	    avatar.body.velocity.y = 0;
     	    if (cursors.up.isDown && cursors.right.isDown)
     	    {
-    	    	    avatar.body.velocity.y = -200;
-    	    	    avatar.body.velocity.x = 200;
+    	    	    avatar.body.velocity.y = -200 * avatarSpeed;
+    	    	    avatar.body.velocity.x = 200 * avatarSpeed;
     	    	    avatar.animations.play('right');
     	    	    avatarDirect = 0;
     	    }
     	    else if (cursors.up.isDown && cursors.left.isDown)
     	    {
-    	    	    avatar.body.velocity.y = -200;
-    	    	    avatar.body.velocity.x = -200;
+    	    	    avatar.body.velocity.y = -200 * avatarSpeed;
+    	    	    avatar.body.velocity.x = -200 * avatarSpeed;
     	    	    avatar.animations.play('left');
     	    	    avatarDirect = 1;
     	    }
     	    else if (cursors.down.isDown && cursors.right.isDown)
     	    {
-    	    	    avatar.body.velocity.y = 200;
-    	    	    avatar.body.velocity.x = 200;
+    	    	    avatar.body.velocity.y = 200 * avatarSpeed;
+    	    	    avatar.body.velocity.x = 200 * avatarSpeed;
     	    	    avatar.animations.play('right');
     	    	    avatarDirect = 0;
     	    }
     	    else if (cursors.left.isDown && cursors.down.isDown)
     	    {
-    	    	    avatar.body.velocity.y = 200;
-    	    	    avatar.body.velocity.x = -200;
+    	    	    avatar.body.velocity.y = 200 * avatarSpeed;
+    	    	    avatar.body.velocity.x = -200 * avatarSpeed;
     	    	    avatar.animations.play('left');
     	    	    avatarDirect = 1;
     	    }
     	    else if (cursors.up.isDown)
     	    {
-    	    	    avatar.body.velocity.y = -200;
+    	    	    avatar.body.velocity.y = -200 * avatarSpeed;
     	    	    if (avatarDirect)
     	    	    {
     	    	    	  avatar.animations.play('left');
@@ -344,7 +392,7 @@ window.onload = function() {
     	    }
     	    else if (cursors.down.isDown)
     	    {
-    	    	    avatar.body.velocity.y = 200;
+    	    	    avatar.body.velocity.y = 200 * avatarSpeed;
     	    	    if (avatarDirect)
     	    	    {
     	    	    	  avatar.animations.play('left');
@@ -356,13 +404,13 @@ window.onload = function() {
     	    }
     	    else if (cursors.left.isDown)
     	    {
-    	    	    avatar.body.velocity.x = -200;
+    	    	    avatar.body.velocity.x = -200 * avatarSpeed;
     	    	    avatar.animations.play('left');
     	    	    avatarDirect = 1;
     	    }
     	    else if (cursors.right.isDown)
     	    {
-    	    	    avatar.body.velocity.x = 200;
+    	    	    avatar.body.velocity.x = 200 * avatarSpeed;
     	    	    avatar.animations.play('right');
     	    	    avatarDirect = 0;
     	    }
@@ -379,17 +427,99 @@ window.onload = function() {
     	    }
     }
         
-    function resetTurnSafe()
+    function resetTurnSafe() //Prevent too many cards from turning over at once
     {
     	    turnSafe = 1;
     }
     
-    function killCards()
+    function killBubble(avatar, bubble) //destroy a bubble
+    {
+    	    pop.play('', 0, 1, false);
+    	    bubble.destroy();
+    	    if (timerOff)
+    	    {
+    	    	    avatarSpeed = 0.5;
+    	    	    game.time.events.add(Phaser.Timer.SECOND * 5.0, resetTimer, null);
+    	    	    timerOff = 0;
+    	    }
+    }
+    
+    function resetTimer() //reset player speed to regular
+    {
+    	  avatarSpeed = 1.0;
+    	  timerOff = 1;
+    }
+    
+    function makeBubble() //create a bubble object
+    {
+    	    emptyBubble = emptyGroup.create(getBubbleX(), getBubbleY(), 'bub');
+    	    game.physics.arcade.enable(emptyBubble)
+    	    emptyBubble.scale.x = .2;
+    	    emptyBubble.scale.y = .2;
+    	    emptyBubble.body.velocity.x = game.rnd.integerInRange(-400, 400);
+    	    emptyBubble.body.velocity.y = game.rnd.integerInRange(-400, 400);
+    	    emptyBubble.body.bounce.setTo(1, 1);
+    }
+    
+    function getBubbleX() //get bubble x position
+    {
+    	    if (avatar.x < 512)
+    	    {
+    	    	    return 850;
+    	    }
+    	    else
+    	    {
+    	    	    return 250; 
+    	    }
+    }
+    
+    function getBubbleY() //get bubble y position
+    {
+    	    if (avatar.y < 255)
+    	    {
+    	    	    return game.rnd.integerInRange(350, 400);
+    	    }
+    	    else
+    	    {
+    	    	    return game.rnd.integerInRange(200, 250); 
+    	    }
+    }
+    
+    function killIntro() //remove intro splash
+    {
+    	    introBack.destroy();
+    	    introText.destroy();
+    	    introTitleText.destroy();
+    }
+    
+    function killCards() //clear two turned cards
     {
     	    firstCard.destroy();
     	    secondCard.destroy();
     }
     
+    function checkWin() //end game state
+    {
+    	    music.stop();
+    	    gameRunning = 0;
+    	    if (matchesRemaining < 1)
+    	    {
+    	    	    game.add.sprite(0, 0, 'back');
+    	    	    introTitleText = game.add.text(500, 100, 'Speed Memory', titleStyle);
+    	    	    introTitleText.anchor.set(0.5);
+    	    	    introText = game.add.text(500, 250, 'You have matched all the pairs in time.\nGood job!', textStyle);
+    	    	    introText.anchor.set(0.5);
+    	    }
+    	    else
+    	    {
+    	    	    game.add.sprite(0, 0, 'back');
+    	    	    introTitleText = game.add.text(500, 100, 'Speed Memory', titleStyle);
+    	    	    introTitleText.anchor.set(0.5);
+    	    	    introText = game.add.text(500, 250, 'You failed to match all the pairs in time.\nSorry.', textStyle);
+    	    	    introText.anchor.set(0.5);
+    	    }
+    }
+    //check each memory card location
     function card0Check(avatar, card0)
     {
     	    if (firstBackCard != card0)
@@ -421,6 +551,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -465,6 +597,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -509,6 +643,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -553,6 +689,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -597,6 +735,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -641,6 +781,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -685,6 +827,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -729,6 +873,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -773,6 +919,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -817,6 +965,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -861,6 +1011,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -905,6 +1057,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -949,6 +1103,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -993,6 +1149,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -1037,6 +1195,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -1081,6 +1241,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -1125,6 +1287,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -1169,6 +1333,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -1213,6 +1379,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -1257,6 +1425,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -1301,6 +1471,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -1345,6 +1517,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -1389,6 +1563,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -1433,6 +1609,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -1477,6 +1655,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -1521,6 +1701,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -1565,6 +1747,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -1609,6 +1793,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -1653,6 +1839,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -1697,6 +1885,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -1741,6 +1931,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -1785,6 +1977,8 @@ window.onload = function() {
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
     	    	    		    	   firstCardTurn = 0;
+    	    	    		    	   makeBubble();
+    	    	    		    	   bell.play('', 0, 1, false);
     	    	    		   } 
     	    	    		   else
     	    	    		   {
