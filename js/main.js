@@ -90,40 +90,12 @@ window.onload = function() {
     var firstCardCheck;
     var firstBackCard = 0;
     var secondBackCard = 0;
-    var card0Safe = 1;
-    var card1Safe = 1;
-    var card2Safe = 1;
-    var card3Safe = 1;
-    var card4Safe = 1;
-    var card5Safe = 1;
-    var card6Safe = 1;
-    var card7Safe = 1;
-    var card8Safe = 1;
-    var card9Safe = 1;
-    var card10Safe = 1;
-    var card11Safe = 1;
-    var card12Safe = 1;
-    var card13Safe = 1;
-    var card14Safe = 1;
-    var card15Safe = 1;
-    var card16Safe = 1;
-    var card17Safe = 1;
-    var card18Safe = 1;
-    var card19Safe = 1;
-    var card20Safe = 1;
-    var card21Safe = 1;
-    var card22Safe = 1;
-    var card23Safe = 1;
-    var card24Safe = 1;
-    var card25Safe = 1;
-    var card26Safe = 1;
-    var card27Safe = 1;
-    var card28Safe = 1;
-    var card29Safe = 1;
-    var card30Safe = 1;
-    var card31Safe = 1;
     var cardGroup;
     var spaceKey;
+    var matchesRemaining = 16;
+    var avatarText;
+    var textStyle = { font: "20px Arial", fill: "#000000", align: "center" };
+    var time = 0;
         
     function create()
     {
@@ -262,6 +234,8 @@ window.onload = function() {
     	    avatar.animations.add('left', [0, 1, 2, 3], 10, true);
     	    avatar.animations.add('right', [5, 6, 7, 8], 10, true);
     	    
+    	    avatarText = game.add.text(60, 55, 'Time Remaining: ' + time + ' Pairs Remaining: ' + matchesRemaining, textStyle);
+    	    
     	    cursors = game.input.keyboard.createCursorKeys();
     	    
     	    game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -285,6 +259,8 @@ window.onload = function() {
     
     function update()
     {
+    	    avatarText.setText('Time Remaining: ' + time + ' Pairs Remaining: ' + matchesRemaining);
+    	    
     	    game.physics.arcade.collide(avatar, wallGroup, null, null, this);
     	    
     	    if (spaceKey.isDown)
@@ -297,7 +273,7 @@ window.onload = function() {
     	    	    game.physics.arcade.overlap(avatar, card5, card5Check, null, this);
     	    	    game.physics.arcade.overlap(avatar, card6, card6Check, null, this);
     	    	    game.physics.arcade.overlap(avatar, card7, card7Check, null, this);
-    	    	    /*game.physics.arcade.overlap(avatar, card8, card8Check, null, this);
+    	    	    game.physics.arcade.overlap(avatar, card8, card8Check, null, this);
     	    	    game.physics.arcade.overlap(avatar, card9, card9Check, null, this);
     	    	    game.physics.arcade.overlap(avatar, card10, card10Check, null, this);
     	    	    game.physics.arcade.overlap(avatar, card11, card11Check, null, this);
@@ -320,7 +296,7 @@ window.onload = function() {
     	    	    game.physics.arcade.overlap(avatar, card28, card28Check, null, this);
 		    game.physics.arcade.overlap(avatar, card29, card29Check, null, this);
 		    game.physics.arcade.overlap(avatar, card30, card30Check, null, this);
-		    game.physics.arcade.overlap(avatar, card31, card31Check, null, this);*/
+		    game.physics.arcade.overlap(avatar, card31, card31Check, null, this);
     	    }
     	    
     	    
@@ -434,16 +410,17 @@ window.onload = function() {
     	    	   	   {
     	    	   	   	   secondCard = game.add.sprite(95, 95, cardList[0]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
     	    	   	   	   secondBackCard = card0;
     	    	    		   if (cardList[0] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 2.0, killCards, null);
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
     	    	    		    	   firstBackCard.x = -500;
     	    	    		    	   secondBackCard.x = -500;
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -477,16 +454,17 @@ window.onload = function() {
     	    	   	   {
     	    	   	   	   secondCard = game.add.sprite(205, 95, cardList[1]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
     	    	   	   	   secondBackCard = card1;
     	    	    		   if (cardList[1] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 2.0, killCards, null);
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
     	    	    		    	   firstBackCard.x = -500;
     	    	    		    	   secondBackCard.x = -500;
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -520,16 +498,17 @@ window.onload = function() {
     	    	   	   {
     	    	   	   	   secondCard = game.add.sprite(315, 95, cardList[2]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
     	    	   	   	   secondBackCard = card2;
     	    	    		   if (cardList[2] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 2.0, killCards, null);
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
     	    	    		    	   firstBackCard.x = -500;
     	    	    		    	   secondBackCard.x = -500;
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -563,16 +542,17 @@ window.onload = function() {
     	    	   	   {
     	    	   	   	   secondCard = game.add.sprite(425, 95, cardList[3]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
     	    	   	   	   secondBackCard = card3;
     	    	    		   if (cardList[3] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 2.0, killCards, null);
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
     	    	    		    	   firstBackCard.x = -500;
     	    	    		    	   secondBackCard.x = -500;
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -606,16 +586,17 @@ window.onload = function() {
     	    	   	   {
     	    	   	   	   secondCard = game.add.sprite(535, 95, cardList[4]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
     	    	   	   	   secondBackCard = card4;
     	    	    		   if (cardList[4] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 2.0, killCards, null);
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
     	    	    		    	   firstBackCard.x = -500;
     	    	    		    	   secondBackCard.x = -500;
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -649,16 +630,17 @@ window.onload = function() {
     	    	   	   {
     	    	   	   	   secondCard = game.add.sprite(645, 95, cardList[5]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
     	    	   	   	   secondBackCard = card5;
     	    	    		   if (cardList[5] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 2.0, killCards, null);
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
     	    	    		    	   firstBackCard.x = -500;
     	    	    		    	   secondBackCard.x = -500;
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -692,16 +674,17 @@ window.onload = function() {
     	    	   	   {
     	    	   	   	   secondCard = game.add.sprite(755, 95, cardList[6]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
     	    	   	   	   secondBackCard = card6;
     	    	    		   if (cardList[6] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 2.0, killCards, null);
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
     	    	    		    	   firstBackCard.x = -500;
     	    	    		    	   secondBackCard.x = -500;
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -735,16 +718,17 @@ window.onload = function() {
     	    	   	   {
     	    	   	   	   secondCard = game.add.sprite(865, 95, cardList[7]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
     	    	   	   	   secondBackCard = card7;
     	    	    		   if (cardList[7] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 2.0, killCards, null);
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
     	    	    		    	   firstBackCard.x = -500;
     	    	    		    	   secondBackCard.x = -500;
     	    	    		    	   firstBackCard = 0;
     	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
@@ -758,984 +742,1056 @@ window.onload = function() {
     	    }
     }
     
-    function card0Check(avatar, card0)
+    function card8Check(avatar, card8)
     {
-    	    if (card0Safe)
+    	    if (firstBackCard != card8)
     	    {
     	    	   if (turnSafe)
     	    	   {
     	    	   	   turnSafe = 0;
     	    	   	   if (!firstCardTurn)
     	    	   	   {
-    	    	   	   	   firstCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   firstCard = game.add.sprite(95, 205, cardList[8]);
     	    	   	   	   cardGroup.add(firstCard);
     	    	   	   	   turnSafe = 1;
-    	    	   	   	   firstCardCheck = cardList[0];
-    	    	   	   	   firstBackCard = card0;
+    	    	   	   	   firstCardCheck = cardList[8];
+    	    	   	   	   firstBackCard = card8;
     	    	   	   	   firstCardTurn = 1;
-    	    	   	   	   card0Safe = 0;
     	    	   	   }
     	    	   	   else
     	    	   	   {
-    	    	   	   	   secondCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   secondCard = game.add.sprite(95, 205, cardList[8]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 2.0, resetTurnSafe, null);
-    	    	   	   	   secondBackCard = card0;
-    	    	    		   if (cardList[0] === firstCardCheck)
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
+    	    	   	   	   secondBackCard = card8;
+    	    	    		   if (cardList[8] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		    	   firstCardBack.x = -500;
-    	    	    		    	   secondCardBack.x = -500;
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
+    	    	    		    	   firstBackCard.x = -500;
+    	    	    		    	   secondBackCard.x = -500;
+    	    	    		    	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
     	    	    		   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		   	   card0Safe = 1;
     	    	    		   	   firstCardTurn = 0;
+    	    	    		   	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
     	    	    		   }
     	    	    	   }
     	    	   } 
     	    }
     }
     
-    function card0Check(avatar, card0)
+    function card9Check(avatar, card9)
     {
-    	    if (card0Safe)
+    	    if (firstBackCard != card9)
     	    {
     	    	   if (turnSafe)
     	    	   {
     	    	   	   turnSafe = 0;
     	    	   	   if (!firstCardTurn)
     	    	   	   {
-    	    	   	   	   firstCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   firstCard = game.add.sprite(205, 205, cardList[9]);
     	    	   	   	   cardGroup.add(firstCard);
     	    	   	   	   turnSafe = 1;
-    	    	   	   	   firstCardCheck = cardList[0];
-    	    	   	   	   firstBackCard = card0;
+    	    	   	   	   firstCardCheck = cardList[9];
+    	    	   	   	   firstBackCard = card9;
     	    	   	   	   firstCardTurn = 1;
-    	    	   	   	   card0Safe = 0;
     	    	   	   }
     	    	   	   else
     	    	   	   {
-    	    	   	   	   secondCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   secondCard = game.add.sprite(205, 205, cardList[9]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 2.0, resetTurnSafe, null);
-    	    	   	   	   secondBackCard = card0;
-    	    	    		   if (cardList[0] === firstCardCheck)
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
+    	    	   	   	   secondBackCard = card9;
+    	    	    		   if (cardList[9] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		    	   firstCardBack.x = -500;
-    	    	    		    	   secondCardBack.x = -500;
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
+    	    	    		    	   firstBackCard.x = -500;
+    	    	    		    	   secondBackCard.x = -500;
+    	    	    		    	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
     	    	    		   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		   	   card0Safe = 1;
     	    	    		   	   firstCardTurn = 0;
+    	    	    		   	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
     	    	    		   }
     	    	    	   }
     	    	   } 
     	    }
     }
     
-    function card0Check(avatar, card0)
+    function card10Check(avatar, card10)
     {
-    	    if (card0Safe)
+    	    if (firstBackCard != card10)
     	    {
     	    	   if (turnSafe)
     	    	   {
     	    	   	   turnSafe = 0;
     	    	   	   if (!firstCardTurn)
     	    	   	   {
-    	    	   	   	   firstCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   firstCard = game.add.sprite(315, 205, cardList[10]);
     	    	   	   	   cardGroup.add(firstCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
-    	    	   	   	   firstCardCheck = cardList[0];
-    	    	   	   	   firstBackCard = card0;
+    	    	   	   	   turnSafe = 1;
+    	    	   	   	   firstCardCheck = cardList[10];
+    	    	   	   	   firstBackCard = card10;
     	    	   	   	   firstCardTurn = 1;
-    	    	   	   	   card0Safe = 0;
     	    	   	   }
     	    	   	   else
     	    	   	   {
-    	    	   	   	   secondCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   secondCard = game.add.sprite(315, 205, cardList[10]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 2.0, resetTurnSafe, null);
-    	    	   	   	   secondBackCard = card0;
-    	    	    		   if (cardList[0] === firstCardCheck)
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
+    	    	   	   	   secondBackCard = card10;
+    	    	    		   if (cardList[10] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		    	   firstCardBack.x = -500;
-    	    	    		    	   secondCardBack.x = -500;
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
+    	    	    		    	   firstBackCard.x = -500;
+    	    	    		    	   secondBackCard.x = -500;
+    	    	    		    	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
     	    	    		   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		   	   card0Safe = 1;
     	    	    		   	   firstCardTurn = 0;
+    	    	    		   	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
     	    	    		   }
     	    	    	   }
     	    	   } 
     	    }
     }
     
-    function card0Check(avatar, card0)
+    function card11Check(avatar, card11)
     {
-    	    if (card0Safe)
+    	    if (firstBackCard != card11)
     	    {
     	    	   if (turnSafe)
     	    	   {
     	    	   	   turnSafe = 0;
     	    	   	   if (!firstCardTurn)
     	    	   	   {
-    	    	   	   	   firstCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   firstCard = game.add.sprite(425, 205, cardList[11]);
     	    	   	   	   cardGroup.add(firstCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
-    	    	   	   	   firstCardCheck = cardList[0];
-    	    	   	   	   firstBackCard = card0;
+    	    	   	   	   turnSafe = 1;
+    	    	   	   	   firstCardCheck = cardList[11];
+    	    	   	   	   firstBackCard = card11;
     	    	   	   	   firstCardTurn = 1;
-    	    	   	   	   card0Safe = 0;
     	    	   	   }
     	    	   	   else
     	    	   	   {
-    	    	   	   	   secondCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   secondCard = game.add.sprite(425, 205, cardList[11]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 2.0, resetTurnSafe, null);
-    	    	   	   	   secondBackCard = card0;
-    	    	    		   if (cardList[0] === firstCardCheck)
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
+    	    	   	   	   secondBackCard = card11;
+    	    	    		   if (cardList[11] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		    	   firstCardBack.x = -500;
-    	    	    		    	   secondCardBack.x = -500;
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
+    	    	    		    	   firstBackCard.x = -500;
+    	    	    		    	   secondBackCard.x = -500;
+    	    	    		    	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
     	    	    		   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		   	   card0Safe = 1;
     	    	    		   	   firstCardTurn = 0;
+    	    	    		   	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
     	    	    		   }
     	    	    	   }
     	    	   } 
     	    }
     }
     
-    function card0Check(avatar, card0)
+    function card12Check(avatar, card12)
     {
-    	    if (card0Safe)
+    	    if (firstBackCard != card12)
     	    {
     	    	   if (turnSafe)
     	    	   {
     	    	   	   turnSafe = 0;
     	    	   	   if (!firstCardTurn)
     	    	   	   {
-    	    	   	   	   firstCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   firstCard = game.add.sprite(535, 205, cardList[12]);
     	    	   	   	   cardGroup.add(firstCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
-    	    	   	   	   firstCardCheck = cardList[0];
-    	    	   	   	   firstBackCard = card0;
+    	    	   	   	   turnSafe = 1;
+    	    	   	   	   firstCardCheck = cardList[12];
+    	    	   	   	   firstBackCard = card12;
     	    	   	   	   firstCardTurn = 1;
-    	    	   	   	   card0Safe = 0;
     	    	   	   }
     	    	   	   else
     	    	   	   {
-    	    	   	   	   secondCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   secondCard = game.add.sprite(535, 205, cardList[12]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 2.0, resetTurnSafe, null);
-    	    	   	   	   secondBackCard = card0;
-    	    	    		   if (cardList[0] === firstCardCheck)
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
+    	    	   	   	   secondBackCard = card12;
+    	    	    		   if (cardList[12] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		    	   firstCardBack.x = -500;
-    	    	    		    	   secondCardBack.x = -500;
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
+    	    	    		    	   firstBackCard.x = -500;
+    	    	    		    	   secondBackCard.x = -500;
+    	    	    		    	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
     	    	    		   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		   	   card0Safe = 1;
     	    	    		   	   firstCardTurn = 0;
+    	    	    		   	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
     	    	    		   }
     	    	    	   }
     	    	   } 
     	    }
     }
     
-    function card0Check(avatar, card0)
+    function card13Check(avatar, card13)
     {
-    	    if (card0Safe)
+    	    if (firstBackCard != card13)
     	    {
     	    	   if (turnSafe)
     	    	   {
     	    	   	   turnSafe = 0;
     	    	   	   if (!firstCardTurn)
     	    	   	   {
-    	    	   	   	   firstCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   firstCard = game.add.sprite(645, 205, cardList[13]);
     	    	   	   	   cardGroup.add(firstCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
-    	    	   	   	   firstCardCheck = cardList[0];
-    	    	   	   	   firstBackCard = card0;
+    	    	   	   	   turnSafe = 1;
+    	    	   	   	   firstCardCheck = cardList[13];
+    	    	   	   	   firstBackCard = card13;
     	    	   	   	   firstCardTurn = 1;
-    	    	   	   	   card0Safe = 0;
     	    	   	   }
     	    	   	   else
     	    	   	   {
-    	    	   	   	   secondCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   secondCard = game.add.sprite(645, 205, cardList[13]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 2.0, resetTurnSafe, null);
-    	    	   	   	   secondBackCard = card0;
-    	    	    		   if (cardList[0] === firstCardCheck)
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
+    	    	   	   	   secondBackCard = card13;
+    	    	    		   if (cardList[13] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		    	   firstCardBack.x = -500;
-    	    	    		    	   secondCardBack.x = -500;
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
+    	    	    		    	   firstBackCard.x = -500;
+    	    	    		    	   secondBackCard.x = -500;
+    	    	    		    	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
     	    	    		   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		   	   card0Safe = 1;
     	    	    		   	   firstCardTurn = 0;
+    	    	    		   	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
     	    	    		   }
     	    	    	   }
     	    	   } 
     	    }
     }
     
-    function card0Check(avatar, card0)
+    function card14Check(avatar, card14)
     {
-    	    if (card0Safe)
+    	    if (firstBackCard != card14)
     	    {
     	    	   if (turnSafe)
     	    	   {
     	    	   	   turnSafe = 0;
     	    	   	   if (!firstCardTurn)
     	    	   	   {
-    	    	   	   	   firstCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   firstCard = game.add.sprite(755, 205, cardList[14]);
     	    	   	   	   cardGroup.add(firstCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
-    	    	   	   	   firstCardCheck = cardList[0];
-    	    	   	   	   firstBackCard = card0;
+    	    	   	   	   turnSafe = 1;
+    	    	   	   	   firstCardCheck = cardList[14];
+    	    	   	   	   firstBackCard = card14;
     	    	   	   	   firstCardTurn = 1;
-    	    	   	   	   card0Safe = 0;
     	    	   	   }
     	    	   	   else
     	    	   	   {
-    	    	   	   	   secondCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   secondCard = game.add.sprite(755, 205, cardList[14]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 2.0, resetTurnSafe, null);
-    	    	   	   	   secondBackCard = card0;
-    	    	    		   if (cardList[0] === firstCardCheck)
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
+    	    	   	   	   secondBackCard = card14;
+    	    	    		   if (cardList[14] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		    	   firstCardBack.x = -500;
-    	    	    		    	   secondCardBack.x = -500;
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
+    	    	    		    	   firstBackCard.x = -500;
+    	    	    		    	   secondBackCard.x = -500;
+    	    	    		    	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
     	    	    		   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		   	   card0Safe = 1;
     	    	    		   	   firstCardTurn = 0;
+    	    	    		   	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
     	    	    		   }
     	    	    	   }
     	    	   } 
     	    }
     }
     
-    function card0Check(avatar, card0)
+    function card15Check(avatar, card15)
     {
-    	    if (card0Safe)
+    	    if (firstBackCard != card15)
     	    {
     	    	   if (turnSafe)
     	    	   {
     	    	   	   turnSafe = 0;
     	    	   	   if (!firstCardTurn)
     	    	   	   {
-    	    	   	   	   firstCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   firstCard = game.add.sprite(865, 205, cardList[15]);
     	    	   	   	   cardGroup.add(firstCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
-    	    	   	   	   firstCardCheck = cardList[0];
-    	    	   	   	   firstBackCard = card0;
+    	    	   	   	   turnSafe = 1;
+    	    	   	   	   firstCardCheck = cardList[15];
+    	    	   	   	   firstBackCard = card15;
     	    	   	   	   firstCardTurn = 1;
-    	    	   	   	   card0Safe = 0;
     	    	   	   }
     	    	   	   else
     	    	   	   {
-    	    	   	   	   secondCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   secondCard = game.add.sprite(865, 205, cardList[15]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 2.0, resetTurnSafe, null);
-    	    	   	   	   secondBackCard = card0;
-    	    	    		   if (cardList[0] === firstCardCheck)
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
+    	    	   	   	   secondBackCard = card15;
+    	    	    		   if (cardList[15] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		    	   firstCardBack.x = -500;
-    	    	    		    	   secondCardBack.x = -500;
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
+    	    	    		    	   firstBackCard.x = -500;
+    	    	    		    	   secondBackCard.x = -500;
+    	    	    		    	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
     	    	    		   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		   	   card0Safe = 1;
     	    	    		   	   firstCardTurn = 0;
+    	    	    		   	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
     	    	    		   }
     	    	    	   }
     	    	   } 
     	    }
     }
     
-    function card0Check(avatar, card0)
+    function card16Check(avatar, card16)
     {
-    	    if (card0Safe)
+    	    if (firstBackCard != card16)
     	    {
     	    	   if (turnSafe)
     	    	   {
     	    	   	   turnSafe = 0;
     	    	   	   if (!firstCardTurn)
     	    	   	   {
-    	    	   	   	   firstCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   firstCard = game.add.sprite(95, 315, cardList[16]);
     	    	   	   	   cardGroup.add(firstCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
-    	    	   	   	   firstCardCheck = cardList[0];
-    	    	   	   	   firstBackCard = card0;
+    	    	   	   	   turnSafe = 1;
+    	    	   	   	   firstCardCheck = cardList[16];
+    	    	   	   	   firstBackCard = card16;
     	    	   	   	   firstCardTurn = 1;
-    	    	   	   	   card0Safe = 0;
     	    	   	   }
     	    	   	   else
     	    	   	   {
-    	    	   	   	   secondCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   secondCard = game.add.sprite(95, 315, cardList[16]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 2.0, resetTurnSafe, null);
-    	    	   	   	   secondBackCard = card0;
-    	    	    		   if (cardList[0] === firstCardCheck)
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
+    	    	   	   	   secondBackCard = card16;
+    	    	    		   if (cardList[16] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		    	   firstCardBack.x = -500;
-    	    	    		    	   secondCardBack.x = -500;
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
+    	    	    		    	   firstBackCard.x = -500;
+    	    	    		    	   secondBackCard.x = -500;
+    	    	    		    	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
     	    	    		   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		   	   card0Safe = 1;
     	    	    		   	   firstCardTurn = 0;
+    	    	    		   	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
     	    	    		   }
     	    	    	   }
     	    	   } 
     	    }
     }
     
-    function card0Check(avatar, card0)
+    function card17Check(avatar, card17)
     {
-    	    if (card0Safe)
+    	    if (firstBackCard != card17)
     	    {
     	    	   if (turnSafe)
     	    	   {
     	    	   	   turnSafe = 0;
     	    	   	   if (!firstCardTurn)
     	    	   	   {
-    	    	   	   	   firstCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   firstCard = game.add.sprite(205, 315, cardList[17]);
     	    	   	   	   cardGroup.add(firstCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
-    	    	   	   	   firstCardCheck = cardList[0];
-    	    	   	   	   firstBackCard = card0;
+    	    	   	   	   turnSafe = 1;
+    	    	   	   	   firstCardCheck = cardList[17];
+    	    	   	   	   firstBackCard = card17;
     	    	   	   	   firstCardTurn = 1;
-    	    	   	   	   card0Safe = 0;
     	    	   	   }
     	    	   	   else
     	    	   	   {
-    	    	   	   	   secondCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   secondCard = game.add.sprite(205, 315, cardList[17]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 2.0, resetTurnSafe, null);
-    	    	   	   	   secondBackCard = card0;
-    	    	    		   if (cardList[0] === firstCardCheck)
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
+    	    	   	   	   secondBackCard = card17;
+    	    	    		   if (cardList[17] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		    	   firstCardBack.x = -500;
-    	    	    		    	   secondCardBack.x = -500;
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
+    	    	    		    	   firstBackCard.x = -500;
+    	    	    		    	   secondBackCard.x = -500;
+    	    	    		    	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
     	    	    		   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		   	   card0Safe = 1;
     	    	    		   	   firstCardTurn = 0;
+    	    	    		   	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
     	    	    		   }
     	    	    	   }
     	    	   } 
     	    }
     }
     
-    function card0Check(avatar, card0)
+    function card18Check(avatar, card18)
     {
-    	    if (card0Safe)
+    	    if (firstBackCard != card18)
     	    {
     	    	   if (turnSafe)
     	    	   {
     	    	   	   turnSafe = 0;
     	    	   	   if (!firstCardTurn)
     	    	   	   {
-    	    	   	   	   firstCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   firstCard = game.add.sprite(315, 315, cardList[18]);
     	    	   	   	   cardGroup.add(firstCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
-    	    	   	   	   firstCardCheck = cardList[0];
-    	    	   	   	   firstBackCard = card0;
+    	    	   	   	   turnSafe = 1;
+    	    	   	   	   firstCardCheck = cardList[18];
+    	    	   	   	   firstBackCard = card18;
     	    	   	   	   firstCardTurn = 1;
-    	    	   	   	   card0Safe = 0;
     	    	   	   }
     	    	   	   else
     	    	   	   {
-    	    	   	   	   secondCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   secondCard = game.add.sprite(315, 315, cardList[18]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 2.0, resetTurnSafe, null);
-    	    	   	   	   secondBackCard = card0;
-    	    	    		   if (cardList[0] === firstCardCheck)
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
+    	    	   	   	   secondBackCard = card18;
+    	    	    		   if (cardList[18] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		    	   firstCardBack.x = -500;
-    	    	    		    	   secondCardBack.x = -500;
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
+    	    	    		    	   firstBackCard.x = -500;
+    	    	    		    	   secondBackCard.x = -500;
+    	    	    		    	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
     	    	    		   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		   	   card0Safe = 1;
     	    	    		   	   firstCardTurn = 0;
+    	    	    		   	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
     	    	    		   }
     	    	    	   }
     	    	   } 
     	    }
     }
     
-    function card0Check(avatar, card0)
+    function card19Check(avatar, card19)
     {
-    	    if (card0Safe)
+    	    if (firstBackCard != card19)
     	    {
     	    	   if (turnSafe)
     	    	   {
     	    	   	   turnSafe = 0;
     	    	   	   if (!firstCardTurn)
     	    	   	   {
-    	    	   	   	   firstCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   firstCard = game.add.sprite(425, 315, cardList[19]);
     	    	   	   	   cardGroup.add(firstCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
-    	    	   	   	   firstCardCheck = cardList[0];
-    	    	   	   	   firstBackCard = card0;
+    	    	   	   	   turnSafe = 1;
+    	    	   	   	   firstCardCheck = cardList[19];
+    	    	   	   	   firstBackCard = card19;
     	    	   	   	   firstCardTurn = 1;
-    	    	   	   	   card0Safe = 0;
     	    	   	   }
     	    	   	   else
     	    	   	   {
-    	    	   	   	   secondCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   secondCard = game.add.sprite(425, 315, cardList[19]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 2.0, resetTurnSafe, null);
-    	    	   	   	   secondBackCard = card0;
-    	    	    		   if (cardList[0] === firstCardCheck)
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
+    	    	   	   	   secondBackCard = card19;
+    	    	    		   if (cardList[19] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		    	   firstCardBack.x = -500;
-    	    	    		    	   secondCardBack.x = -500;
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
+    	    	    		    	   firstBackCard.x = -500;
+    	    	    		    	   secondBackCard.x = -500;
+    	    	    		    	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
     	    	    		   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		   	   card0Safe = 1;
     	    	    		   	   firstCardTurn = 0;
+    	    	    		   	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
     	    	    		   }
     	    	    	   }
     	    	   } 
     	    }
     }
     
-    function card0Check(avatar, card0)
+    function card20Check(avatar, card20)
     {
-    	    if (card0Safe)
+    	    if (firstBackCard != card20)
     	    {
     	    	   if (turnSafe)
     	    	   {
     	    	   	   turnSafe = 0;
     	    	   	   if (!firstCardTurn)
     	    	   	   {
-    	    	   	   	   firstCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   firstCard = game.add.sprite(535, 315, cardList[20]);
     	    	   	   	   cardGroup.add(firstCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
-    	    	   	   	   firstCardCheck = cardList[0];
-    	    	   	   	   firstBackCard = card0;
+    	    	   	   	   turnSafe = 1;
+    	    	   	   	   firstCardCheck = cardList[20];
+    	    	   	   	   firstBackCard = card20;
     	    	   	   	   firstCardTurn = 1;
-    	    	   	   	   card0Safe = 0;
     	    	   	   }
     	    	   	   else
     	    	   	   {
-    	    	   	   	   secondCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   secondCard = game.add.sprite(535, 315, cardList[20]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 2.0, resetTurnSafe, null);
-    	    	   	   	   secondBackCard = card0;
-    	    	    		   if (cardList[0] === firstCardCheck)
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
+    	    	   	   	   secondBackCard = card20;
+    	    	    		   if (cardList[20] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		    	   firstCardBack.x = -500;
-    	    	    		    	   secondCardBack.x = -500;
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
+    	    	    		    	   firstBackCard.x = -500;
+    	    	    		    	   secondBackCard.x = -500;
+    	    	    		    	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
     	    	    		   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		   	   card0Safe = 1;
     	    	    		   	   firstCardTurn = 0;
+    	    	    		   	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
     	    	    		   }
     	    	    	   }
     	    	   } 
     	    }
     }
     
-    function card0Check(avatar, card0)
+    function card21Check(avatar, card21)
     {
-    	    if (card0Safe)
+    	    if (firstBackCard != card21)
     	    {
     	    	   if (turnSafe)
     	    	   {
     	    	   	   turnSafe = 0;
     	    	   	   if (!firstCardTurn)
     	    	   	   {
-    	    	   	   	   firstCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   firstCard = game.add.sprite(645, 315, cardList[21]);
     	    	   	   	   cardGroup.add(firstCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
-    	    	   	   	   firstCardCheck = cardList[0];
-    	    	   	   	   firstBackCard = card0;
+    	    	   	   	   turnSafe = 1;
+    	    	   	   	   firstCardCheck = cardList[21];
+    	    	   	   	   firstBackCard = card21;
     	    	   	   	   firstCardTurn = 1;
-    	    	   	   	   card0Safe = 0;
     	    	   	   }
     	    	   	   else
     	    	   	   {
-    	    	   	   	   secondCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   secondCard = game.add.sprite(645, 315, cardList[21]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 2.0, resetTurnSafe, null);
-    	    	   	   	   secondBackCard = card0;
-    	    	    		   if (cardList[0] === firstCardCheck)
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
+    	    	   	   	   secondBackCard = card21;
+    	    	    		   if (cardList[21] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		    	   firstCardBack.x = -500;
-    	    	    		    	   secondCardBack.x = -500;
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
+    	    	    		    	   firstBackCard.x = -500;
+    	    	    		    	   secondBackCard.x = -500;
+    	    	    		    	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
     	    	    		   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		   	   card0Safe = 1;
     	    	    		   	   firstCardTurn = 0;
+    	    	    		   	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
     	    	    		   }
     	    	    	   }
     	    	   } 
     	    }
     }
     
-    function card0Check(avatar, card0)
+    function card22Check(avatar, card22)
     {
-    	    if (card0Safe)
+    	    if (firstBackCard != card22)
     	    {
     	    	   if (turnSafe)
     	    	   {
     	    	   	   turnSafe = 0;
     	    	   	   if (!firstCardTurn)
     	    	   	   {
-    	    	   	   	   firstCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   firstCard = game.add.sprite(755, 315, cardList[22]);
     	    	   	   	   cardGroup.add(firstCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
-    	    	   	   	   firstCardCheck = cardList[0];
-    	    	   	   	   firstBackCard = card0;
+    	    	   	   	   turnSafe = 1;
+    	    	   	   	   firstCardCheck = cardList[22];
+    	    	   	   	   firstBackCard = card22;
     	    	   	   	   firstCardTurn = 1;
-    	    	   	   	   card0Safe = 0;
     	    	   	   }
     	    	   	   else
     	    	   	   {
-    	    	   	   	   secondCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   secondCard = game.add.sprite(755, 315, cardList[22]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 2.0, resetTurnSafe, null);
-    	    	   	   	   secondBackCard = card0;
-    	    	    		   if (cardList[0] === firstCardCheck)
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
+    	    	   	   	   secondBackCard = card22;
+    	    	    		   if (cardList[22] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		    	   firstCardBack.x = -500;
-    	    	    		    	   secondCardBack.x = -500;
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
+    	    	    		    	   firstBackCard.x = -500;
+    	    	    		    	   secondBackCard.x = -500;
+    	    	    		    	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
     	    	    		   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		   	   card0Safe = 1;
     	    	    		   	   firstCardTurn = 0;
+    	    	    		   	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
     	    	    		   }
     	    	    	   }
     	    	   } 
     	    }
     }
     
-    function card0Check(avatar, card0)
+    function card23Check(avatar, card23)
     {
-    	    if (card0Safe)
+    	    if (firstBackCard != card23)
     	    {
     	    	   if (turnSafe)
     	    	   {
     	    	   	   turnSafe = 0;
     	    	   	   if (!firstCardTurn)
     	    	   	   {
-    	    	   	   	   firstCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   firstCard = game.add.sprite(865, 315, cardList[23]);
     	    	   	   	   cardGroup.add(firstCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
-    	    	   	   	   firstCardCheck = cardList[0];
-    	    	   	   	   firstBackCard = card0;
+    	    	   	   	   turnSafe = 1;
+    	    	   	   	   firstCardCheck = cardList[23];
+    	    	   	   	   firstBackCard = card23;
     	    	   	   	   firstCardTurn = 1;
-    	    	   	   	   card0Safe = 0;
     	    	   	   }
     	    	   	   else
     	    	   	   {
-    	    	   	   	   secondCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   secondCard = game.add.sprite(865, 315, cardList[23]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 2.0, resetTurnSafe, null);
-    	    	   	   	   secondBackCard = card0;
-    	    	    		   if (cardList[0] === firstCardCheck)
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
+    	    	   	   	   secondBackCard = card23;
+    	    	    		   if (cardList[23] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		    	   firstCardBack.x = -500;
-    	    	    		    	   secondCardBack.x = -500;
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
+    	    	    		    	   firstBackCard.x = -500;
+    	    	    		    	   secondBackCard.x = -500;
+    	    	    		    	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
     	    	    		   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		   	   card0Safe = 1;
     	    	    		   	   firstCardTurn = 0;
+    	    	    		   	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
     	    	    		   }
     	    	    	   }
     	    	   } 
     	    }
     }
     
-    function card0Check(avatar, card0)
+    function card24Check(avatar, card24)
     {
-    	    if (card0Safe)
+    	    if (firstBackCard != card24)
     	    {
     	    	   if (turnSafe)
     	    	   {
     	    	   	   turnSafe = 0;
     	    	   	   if (!firstCardTurn)
     	    	   	   {
-    	    	   	   	   firstCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   firstCard = game.add.sprite(95, 425, cardList[24]);
     	    	   	   	   cardGroup.add(firstCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
-    	    	   	   	   firstCardCheck = cardList[0];
-    	    	   	   	   firstBackCard = card0;
+    	    	   	   	   turnSafe = 1;
+    	    	   	   	   firstCardCheck = cardList[24];
+    	    	   	   	   firstBackCard = card24;
     	    	   	   	   firstCardTurn = 1;
-    	    	   	   	   card0Safe = 0;
     	    	   	   }
     	    	   	   else
     	    	   	   {
-    	    	   	   	   secondCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   secondCard = game.add.sprite(95, 425, cardList[24]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 2.0, resetTurnSafe, null);
-    	    	   	   	   secondBackCard = card0;
-    	    	    		   if (cardList[0] === firstCardCheck)
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
+    	    	   	   	   secondBackCard = card24;
+    	    	    		   if (cardList[24] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		    	   firstCardBack.x = -500;
-    	    	    		    	   secondCardBack.x = -500;
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
+    	    	    		    	   firstBackCard.x = -500;
+    	    	    		    	   secondBackCard.x = -500;
+    	    	    		    	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
     	    	    		   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		   	   card0Safe = 1;
     	    	    		   	   firstCardTurn = 0;
+    	    	    		   	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
     	    	    		   }
     	    	    	   }
     	    	   } 
     	    }
     }
     
-    function card0Check(avatar, card0)
+    function card25Check(avatar, card25)
     {
-    	    if (card0Safe)
+    	    if (firstBackCard != card25)
     	    {
     	    	   if (turnSafe)
     	    	   {
     	    	   	   turnSafe = 0;
     	    	   	   if (!firstCardTurn)
     	    	   	   {
-    	    	   	   	   firstCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   firstCard = game.add.sprite(205, 425, cardList[25]);
     	    	   	   	   cardGroup.add(firstCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
-    	    	   	   	   firstCardCheck = cardList[0];
-    	    	   	   	   firstBackCard = card0;
+    	    	   	   	   turnSafe = 1;
+    	    	   	   	   firstCardCheck = cardList[25];
+    	    	   	   	   firstBackCard = card25;
     	    	   	   	   firstCardTurn = 1;
-    	    	   	   	   card0Safe = 0;
     	    	   	   }
     	    	   	   else
     	    	   	   {
-    	    	   	   	   secondCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   secondCard = game.add.sprite(205, 425, cardList[25]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 2.0, resetTurnSafe, null);
-    	    	   	   	   secondBackCard = card0;
-    	    	    		   if (cardList[0] === firstCardCheck)
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
+    	    	   	   	   secondBackCard = card25;
+    	    	    		   if (cardList[25] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		    	   firstCardBack.x = -500;
-    	    	    		    	   secondCardBack.x = -500;
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
+    	    	    		    	   firstBackCard.x = -500;
+    	    	    		    	   secondBackCard.x = -500;
+    	    	    		    	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
     	    	    		   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		   	   card0Safe = 1;
     	    	    		   	   firstCardTurn = 0;
+    	    	    		   	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
     	    	    		   }
     	    	    	   }
     	    	   } 
     	    }
     }
     
-    function card0Check(avatar, card0)
+    function card26Check(avatar, card26)
     {
-    	    if (card0Safe)
+    	    if (firstBackCard != card26)
     	    {
     	    	   if (turnSafe)
     	    	   {
     	    	   	   turnSafe = 0;
     	    	   	   if (!firstCardTurn)
     	    	   	   {
-    	    	   	   	   firstCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   firstCard = game.add.sprite(315, 425, cardList[26]);
     	    	   	   	   cardGroup.add(firstCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
-    	    	   	   	   firstCardCheck = cardList[0];
-    	    	   	   	   firstBackCard = card0;
+    	    	   	   	   turnSafe = 1;
+    	    	   	   	   firstCardCheck = cardList[26];
+    	    	   	   	   firstBackCard = card26;
     	    	   	   	   firstCardTurn = 1;
-    	    	   	   	   card0Safe = 0;
     	    	   	   }
     	    	   	   else
     	    	   	   {
-    	    	   	   	   secondCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   secondCard = game.add.sprite(315, 425, cardList[26]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 2.0, resetTurnSafe, null);
-    	    	   	   	   secondBackCard = card0;
-    	    	    		   if (cardList[0] === firstCardCheck)
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
+    	    	   	   	   secondBackCard = card26;
+    	    	    		   if (cardList[26] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		    	   firstCardBack.x = -500;
-    	    	    		    	   secondCardBack.x = -500;
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
+    	    	    		    	   firstBackCard.x = -500;
+    	    	    		    	   secondBackCard.x = -500;
+    	    	    		    	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
     	    	    		   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		   	   card0Safe = 1;
     	    	    		   	   firstCardTurn = 0;
+    	    	    		   	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
     	    	    		   }
     	    	    	   }
     	    	   } 
     	    }
     }
     
-    function card0Check(avatar, card0)
+    function card27Check(avatar, card27)
     {
-    	    if (card0Safe)
+    	    if (firstBackCard != card27)
     	    {
     	    	   if (turnSafe)
     	    	   {
     	    	   	   turnSafe = 0;
     	    	   	   if (!firstCardTurn)
     	    	   	   {
-    	    	   	   	   firstCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   firstCard = game.add.sprite(425, 425, cardList[27]);
     	    	   	   	   cardGroup.add(firstCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
-    	    	   	   	   firstCardCheck = cardList[0];
-    	    	   	   	   firstBackCard = card0;
+    	    	   	   	   turnSafe = 1;
+    	    	   	   	   firstCardCheck = cardList[27];
+    	    	   	   	   firstBackCard = card27;
     	    	   	   	   firstCardTurn = 1;
-    	    	   	   	   card0Safe = 0;
     	    	   	   }
     	    	   	   else
     	    	   	   {
-    	    	   	   	   secondCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   secondCard = game.add.sprite(425, 425, cardList[27]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 2.0, resetTurnSafe, null);
-    	    	   	   	   secondBackCard = card0;
-    	    	    		   if (cardList[0] === firstCardCheck)
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
+    	    	   	   	   secondBackCard = card27;
+    	    	    		   if (cardList[27] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		    	   firstCardBack.x = -500;
-    	    	    		    	   secondCardBack.x = -500;
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
+    	    	    		    	   firstBackCard.x = -500;
+    	    	    		    	   secondBackCard.x = -500;
+    	    	    		    	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
     	    	    		   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		   	   card0Safe = 1;
     	    	    		   	   firstCardTurn = 0;
+    	    	    		   	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
     	    	    		   }
     	    	    	   }
     	    	   } 
     	    }
     }
     
-    function card0Check(avatar, card0)
+    function card28Check(avatar, card28)
     {
-    	    if (card0Safe)
+    	    if (firstBackCard != card28)
     	    {
     	    	   if (turnSafe)
     	    	   {
     	    	   	   turnSafe = 0;
     	    	   	   if (!firstCardTurn)
     	    	   	   {
-    	    	   	   	   firstCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   firstCard = game.add.sprite(535, 425, cardList[28]);
     	    	   	   	   cardGroup.add(firstCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
-    	    	   	   	   firstCardCheck = cardList[0];
-    	    	   	   	   firstBackCard = card0;
+    	    	   	   	   turnSafe = 1;
+    	    	   	   	   firstCardCheck = cardList[28];
+    	    	   	   	   firstBackCard = card28;
     	    	   	   	   firstCardTurn = 1;
-    	    	   	   	   card0Safe = 0;
     	    	   	   }
     	    	   	   else
     	    	   	   {
-    	    	   	   	   secondCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   secondCard = game.add.sprite(535, 425, cardList[28]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 2.0, resetTurnSafe, null);
-    	    	   	   	   secondBackCard = card0;
-    	    	    		   if (cardList[0] === firstCardCheck)
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
+    	    	   	   	   secondBackCard = card28;
+    	    	    		   if (cardList[28] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		    	   firstCardBack.x = -500;
-    	    	    		    	   secondCardBack.x = -500;
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
+    	    	    		    	   firstBackCard.x = -500;
+    	    	    		    	   secondBackCard.x = -500;
+    	    	    		    	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
     	    	    		   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		   	   card0Safe = 1;
     	    	    		   	   firstCardTurn = 0;
+    	    	    		   	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
     	    	    		   }
     	    	    	   }
     	    	   } 
     	    }
     }
     
-    function card0Check(avatar, card0)
+    function card29Check(avatar, card29)
     {
-    	    if (card0Safe)
+    	    if (firstBackCard != card29)
     	    {
     	    	   if (turnSafe)
     	    	   {
     	    	   	   turnSafe = 0;
     	    	   	   if (!firstCardTurn)
     	    	   	   {
-    	    	   	   	   firstCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   firstCard = game.add.sprite(645, 425, cardList[29]);
     	    	   	   	   cardGroup.add(firstCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
-    	    	   	   	   firstCardCheck = cardList[0];
-    	    	   	   	   firstBackCard = card0;
+    	    	   	   	   turnSafe = 1;
+    	    	   	   	   firstCardCheck = cardList[29];
+    	    	   	   	   firstBackCard = card29;
     	    	   	   	   firstCardTurn = 1;
-    	    	   	   	   card0Safe = 0;
     	    	   	   }
     	    	   	   else
     	    	   	   {
-    	    	   	   	   secondCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   secondCard = game.add.sprite(645, 425, cardList[29]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 2.0, resetTurnSafe, null);
-    	    	   	   	   secondBackCard = card0;
-    	    	    		   if (cardList[0] === firstCardCheck)
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
+    	    	   	   	   secondBackCard = card29;
+    	    	    		   if (cardList[29] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		    	   firstCardBack.x = -500;
-    	    	    		    	   secondCardBack.x = -500;
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
+    	    	    		    	   firstBackCard.x = -500;
+    	    	    		    	   secondBackCard.x = -500;
+    	    	    		    	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
     	    	    		   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		   	   card0Safe = 1;
     	    	    		   	   firstCardTurn = 0;
+    	    	    		   	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
     	    	    		   }
     	    	    	   }
     	    	   } 
     	    }
     }
     
-    function card0Check(avatar, card0)
+    function card30Check(avatar, card30)
     {
-    	    if (card0Safe)
+    	    if (firstBackCard != card30)
     	    {
     	    	   if (turnSafe)
     	    	   {
     	    	   	   turnSafe = 0;
     	    	   	   if (!firstCardTurn)
     	    	   	   {
-    	    	   	   	   firstCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   firstCard = game.add.sprite(755, 425, cardList[30]);
     	    	   	   	   cardGroup.add(firstCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
-    	    	   	   	   firstCardCheck = cardList[0];
-    	    	   	   	   firstBackCard = card0;
+    	    	   	   	   turnSafe = 1;
+    	    	   	   	   firstCardCheck = cardList[30];
+    	    	   	   	   firstBackCard = card30;
     	    	   	   	   firstCardTurn = 1;
-    	    	   	   	   card0Safe = 0;
     	    	   	   }
     	    	   	   else
     	    	   	   {
-    	    	   	   	   secondCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   secondCard = game.add.sprite(755, 425, cardList[30]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 2.0, resetTurnSafe, null);
-    	    	   	   	   secondBackCard = card0;
-    	    	    		   if (cardList[0] === firstCardCheck)
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
+    	    	   	   	   secondBackCard = card30;
+    	    	    		   if (cardList[30] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		    	   firstCardBack.x = -500;
-    	    	    		    	   secondCardBack.x = -500;
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
+    	    	    		    	   firstBackCard.x = -500;
+    	    	    		    	   secondBackCard.x = -500;
+    	    	    		    	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
     	    	    		   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		   	   card0Safe = 1;
     	    	    		   	   firstCardTurn = 0;
+    	    	    		   	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
     	    	    		   }
     	    	    	   }
     	    	   } 
     	    }
     }
     
-    function card0Check(avatar, card0)
+    function card31Check(avatar, card31)
     {
-    	    if (card0Safe)
+    	    if (firstBackCard != card31)
     	    {
     	    	   if (turnSafe)
     	    	   {
     	    	   	   turnSafe = 0;
     	    	   	   if (!firstCardTurn)
     	    	   	   {
-    	    	   	   	   firstCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   firstCard = game.add.sprite(865, 425, cardList[31]);
     	    	   	   	   cardGroup.add(firstCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, resetTurnSafe, null);
-    	    	   	   	   firstCardCheck = cardList[0];
-    	    	   	   	   firstBackCard = card0;
+    	    	   	   	   turnSafe = 1;
+    	    	   	   	   firstCardCheck = cardList[31];
+    	    	   	   	   firstBackCard = card31;
     	    	   	   	   firstCardTurn = 1;
-    	    	   	   	   card0Safe = 0;
     	    	   	   }
     	    	   	   else
     	    	   	   {
-    	    	   	   	   secondCard = game.add.sprite(95, 95, cardList[0]);
+    	    	   	   	   secondCard = game.add.sprite(865, 425, cardList[31]);
     	    	   	   	   cardGroup.add(secondCard);
-    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 2.0, resetTurnSafe, null);
-    	    	   	   	   secondBackCard = card0;
-    	    	    		   if (cardList[0] === firstCardCheck)
+    	    	   	   	   game.time.events.add(Phaser.Timer.SECOND * 1.5, resetTurnSafe, null);
+    	    	   	   	   secondBackCard = card31;
+    	    	    		   if (cardList[31] === firstCardCheck)
     	    	    		   {
-    	    	    		   	   //decrement counter
-    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		    	   firstCardBack.x = -500;
-    	    	    		    	   secondCardBack.x = -500;
+    	    	    		   	   matchesRemaining = matchesRemaining - 1;
+    	    	    		    	   game.time.events.add(Phaser.Timer.SECOND * 1.5, killCards, null);
+    	    	    		    	   firstBackCard.x = -500;
+    	    	    		    	   secondBackCard.x = -500;
+    	    	    		    	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
+    	    	    		    	   firstCardTurn = 0;
     	    	    		   } 
     	    	    		   else
     	    	    		   {
     	    	    		   	   game.time.events.add(Phaser.Timer.SECOND * 1.0, killCards, null);
-    	    	    		   	   card0Safe = 1;
     	    	    		   	   firstCardTurn = 0;
+    	    	    		   	   firstBackCard = 0;
+    	    	    		    	   secondBackCard = 0;
     	    	    		   }
     	    	    	   }
     	    	   } 
